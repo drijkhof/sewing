@@ -1,17 +1,27 @@
 ---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Search from 'astro-pagefind/components/Search.astro';
+import { base } from '../lib/base';
 
+const patterns = await getCollection('patterns');
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base title="Sewing">
+  <h1>Sewing</h1>
+  <p>A public library of free sewing patterns.</p>
+
+  <Search className="search" />
+
+  <h2>Patterns</h2>
+  <ul>
+    {
+      patterns.map((pattern) => (
+        <li>
+          <a href={`${base}patterns/${pattern.id}/`}>{pattern.data.name}</a>
+          <p>{pattern.data.description}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Base>

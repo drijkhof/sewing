@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { base } from '../../lib/base';
+
+export async function getStaticPaths() {
+  const patterns = await getCollection('patterns');
+  return patterns.map((pattern) => ({
+    params: { slug: pattern.id },
+    props: { pattern },
+  }));
+}
+
+const { pattern } = Astro.props;
+const { name, description, size, type } = pattern.data;
+---
+
+<Base title={name}>
+  <a href={base}>&larr; Back to patterns</a>
+  <h1>{name}</h1>
+  <p>{description}</p>
+  <dl>
+    <dt>Type</dt>
+    <dd>{type}</dd>
+    <dt>Size</dt>
+    <dd>{size}</dd>
+  </dl>
+  <a href={`${base}patterns/${pattern.id}.pdf`}>Download PDF</a>
+</Base>
