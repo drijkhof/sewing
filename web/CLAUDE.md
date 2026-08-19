@@ -22,8 +22,7 @@ Run from inside `web/`:
 
 - `src/pages/` — routes (`.astro`/`.md` files, one route per file)
   - `patterns/[slug].astro` — per-pattern detail page (from the `patterns` content collection)
-- `src/content.config.ts` — content collections; `patterns` loads YAML from `src/content/patterns/*.yaml` with schema `name`, `description`, `size`, `type`
-- `src/content/patterns/` — one YAML file per pattern
+- `src/content.config.ts` — content collections; `patterns` loads `public/patterns/*/index.yaml` with schema `name`, `description`, `size`, `type`
 - `src/layouts/Base.astro` — shared `<html>` shell
 - `src/lib/base.ts` — normalized `BASE_URL` (Astro's `import.meta.env.BASE_URL` has no trailing slash for a `base` like `/sewing`; use this instead of concatenating `BASE_URL` directly)
-- `public/patterns/` — pattern PDF files, named `<slug>.pdf` matching the YAML entry's filename
+- `public/patterns/<slug>/` — one directory per pattern, co-locating `index.yaml` (metadata) and `pattern.pdf` (the file). Both are served statically; `index.yaml`'s parent directory name is the pattern's id/slug (Astro's content collections convention).
